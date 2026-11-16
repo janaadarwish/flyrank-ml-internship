@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ranking Pages for Content Review: A Refresh Opportunity Scoring Study</title>
+<meta name="description" content="Capstone research paper, FlyRank ML Internship. Replace this with your one-sentence summary.">
+<style>
+:root{
+  --bg:#f7f8fa; --ink:#1c2330; --muted:#566074; --line:#d9dee7; --accent:#0f5c63; --note:#fff6d6; --note-ink:#5a4a00;
+  --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#12161d; --ink:#e7eaf0; --muted:#9aa4b5; --line:#2b3340; --accent:#6fc3c9; --note:#3a3210; --note-ink:#f0e2a0;}
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:1.08rem/1.7 var(--serif)}
+main{max-width:46rem;margin:0 auto;padding:3rem 1.25rem 5rem}
+h1{font:700 2.1rem/1.2 var(--sans);letter-spacing:-.02em;margin:0 0 .6rem}
+h2{font:650 1.35rem/1.3 var(--sans);margin:3rem 0 .6rem;padding-top:1.2rem;border-top:1px solid var(--line)}
+p{margin:.8rem 0}
+.byline{font:.95rem var(--sans);color:var(--muted);margin:0 0 2rem}
+.abstract{border-left:4px solid var(--accent);padding:.2rem 0 .2rem 1.1rem;margin:1.5rem 0}
+.abstract p{margin:.35rem 0}
+nav{font:.92rem var(--sans);margin:1.5rem 0 0}
+nav a{color:var(--accent);margin-right:.9rem;white-space:nowrap}
+a{color:var(--accent)}
+a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+table{width:100%;border-collapse:collapse;font:.95rem var(--sans);margin:1rem 0}
+.scroll{overflow-x:auto}
+th,td{text-align:left;padding:.55rem .7rem;border-bottom:1px solid var(--line)}
+th{font-weight:650}
+figure{margin:1.5rem 0}
+figure img{max-width:100%;height:auto;border:1px solid var(--line)}
+figcaption{font:.88rem var(--sans);color:var(--muted);margin-top:.4rem}
+.todo{background:var(--note);color:var(--note-ink);padding:.15rem .4rem;border-radius:3px;font:.9em var(--sans)}
+ol.recs li{margin:.5rem 0}
+footer{font:.9rem var(--sans);color:var(--muted);margin-top:3rem;border-top:1px solid var(--line);padding-top:1rem}
+</style>
+</head>
+<body>
+<main>
+
+<h1>Ranking Pages for Content Review: A Refresh Opportunity Scoring Study</h1>
+<p class="byline">Jana · FlyRank ML Internship capstone · <span class="todo">add month and year</span></p>
+
+<nav aria-label="Sections">
+  <a href="#intro">Introduction</a><a href="#data">Data</a><a href="#method">Methodology</a><a href="#results">Results</a><a href="#limits">Limitations</a><a href="#recs">Recommendations</a><a href="#repro">Reproducibility</a>
+</nav>
+
+<h2 id="abstract">Abstract</h2>
+<div class="abstract">
+  <p><span class="todo">Sentence 1 (question):</span> Which pages should a content team review first when it can only review a limited number each cycle?</p>
+  <p><span class="todo">Sentence 2 (data):</span> Describe the release, tables and window in one sentence.</p>
+  <p><span class="todo">Sentence 3 (method):</span> Describe the baseline rule and the model in one sentence.</p>
+  <p><span class="todo">Sentence 4 (result):</span> State the model-versus-baseline result on the same split, with the number.</p>
+  <p><span class="todo">Sentence 5 (framing):</span> State what the result means and its main limit, in decision-support language.</p>
+</div>
+
+<h2 id="intro">Introduction</h2>
+<p><span class="todo">Describe the decision this work supports: who reviews pages, how many they can review, and what a wasted review costs.</span></p>
+
+<h2 id="data">Data</h2>
+<p><span class="todo">State which release and tables you used, the date windows (development month and sealed test month), what you excluded and why, and how availability was filtered. Keep it public-safe: no client names, domains, URLs or private queries.</span></p>
+
+<h2 id="method">Methodology</h2>
+<p><span class="todo">Cover your assumptions, your features and when each is knowable, the label or proxy definition, the baseline rule (score, reason code, action), the validation design (grouped or time-aware split), and the leakage checks you ran.</span></p>
+
+<h2 id="results">Results</h2>
+<p>The model and the baseline are compared on the same split.</p>
+<div class="scroll">
+<table>
+  <thead><tr><th>Method</th><th>Precision@50</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td>Baseline rule</td><td><span class="todo">0.__</span></td><td><span class="todo">one-line description</span></td></tr>
+    <tr><td>Model</td><td><span class="todo">0.__</span></td><td><span class="todo">one-line description</span></td></tr>
+  </tbody>
+</table>
+</div>
+<figure>
+  <!-- Save a chart from your notebook to assets/ and point the src at it. -->
+  <img src="assets/results.png" alt="Replace with a description of your chart" width="1200" height="700">
+  <figcaption><span class="todo">Caption: say what the chart shows and which split it comes from.</span></figcaption>
+</figure>
+
+<h2 id="limits">Limitations and honest framing</h2>
+<p>These results are observed on an anonymized sample and are directional. The ranking is decision-support for a human reviewer. It does not show that any signal causes a ranking change, and it does not describe how Google ranks pages. <span class="todo">Add your own specific limits, such as proxy label, one development month, or missing columns.</span></p>
+
+<h2 id="recs">Ranked recommendations</h2>
+<ol class="recs">
+  <li><span class="todo">Action 1, reason code, and what would make it wrong.</span></li>
+  <li><span class="todo">Action 2, reason code, and what would make it wrong.</span></li>
+  <li><span class="todo">Action 3, reason code, and what would make it wrong.</span></li>
+</ol>
+
+<h2 id="repro">Reproducibility</h2>
+<p>Notebooks and code: <a href="https://github.com/janaadarwish/flyrank-ml-internship"><span class="todo">github.com/janaadarwish/your-repo</span></a>. Start with <code>work/notebooks/capstone.ipynb</code>. <span class="todo">List the notebooks in the order to read them.</span></p>
+
+<h2 id="credit">Acknowledgments and data credit</h2>
+<p>Built on the FlyRank ML Internship dataset, <a href="https://flyrank.ai">flyrank.ai</a>. <span class="todo">Thank your mentors if you like.</span></p>
+
+<footer>Remove every highlighted placeholder before you publish.</footer>
+</main>
+</body>
+</html>
