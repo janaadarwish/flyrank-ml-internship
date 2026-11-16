@@ -1,18 +1,19 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ranking Pages for Content Review: A Refresh Opportunity Scoring Study</title>
-<meta name="description" content="Capstone research paper, FlyRank ML Internship. Replace this with your one-sentence summary.">
+<meta name="description" content="An exploratory study comparing impression-trend ranking with a Random Forest model for content-review prioritization using March 2026 FlyRank internship data.">
 <style>
 :root{
-  --bg:#f7f8fa; --ink:#1c2330; --muted:#566074; --line:#d9dee7; --accent:#0f5c63; --note:#fff6d6; --note-ink:#5a4a00;
+  --bg:#f7f8fa; --ink:#1c2330; --muted:#566074; --line:#d9dee7; --accent:#0f5c63;
   --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
   --sans:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
 }
 @media (prefers-color-scheme:dark){
-  :root{--bg:#12161d; --ink:#e7eaf0; --muted:#9aa4b5; --line:#2b3340; --accent:#6fc3c9; --note:#3a3210; --note-ink:#f0e2a0;}
+  :root{--bg:#12161d; --ink:#e7eaf0; --muted:#9aa4b5; --line:#2b3340; --accent:#6fc3c9;}
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -35,7 +36,6 @@ th{font-weight:650}
 figure{margin:1.5rem 0}
 figure img{max-width:100%;height:auto;border:1px solid var(--line)}
 figcaption{font:.88rem var(--sans);color:var(--muted);margin-top:.4rem}
-.todo{background:var(--note);color:var(--note-ink);padding:.15rem .4rem;border-radius:3px;font:.9em var(--sans)}
 ol.recs li{margin:.5rem 0}
 footer{font:.9rem var(--sans);color:var(--muted);margin-top:3rem;border-top:1px solid var(--line);padding-top:1rem}
 </style>
@@ -44,64 +44,110 @@ footer{font:.9rem var(--sans);color:var(--muted);margin-top:3rem;border-top:1px 
 <main>
 
 <h1>Ranking Pages for Content Review: A Refresh Opportunity Scoring Study</h1>
-<p class="byline">Jana · FlyRank ML Internship capstone · <span class="todo">add month and year</span></p>
+<p class="byline">Jana · FlyRank ML Internship Capstone · November 2026</p>
 
 <nav aria-label="Sections">
-  <a href="#intro">Introduction</a><a href="#data">Data</a><a href="#method">Methodology</a><a href="#results">Results</a><a href="#limits">Limitations</a><a href="#recs">Recommendations</a><a href="#repro">Reproducibility</a>
+  <a href="#abstract">Abstract</a>
+  <a href="#intro">Introduction</a>
+  <a href="#data">Data</a>
+  <a href="#method">Methodology</a>
+  <a href="#results">Results</a>
+  <a href="#limits">Limitations</a>
+  <a href="#recs">Recommendations</a>
+  <a href="#repro">Reproducibility</a>
 </nav>
 
 <h2 id="abstract">Abstract</h2>
 <div class="abstract">
-  <p><span class="todo">Sentence 1 (question):</span> Which pages should a content team review first when it can only review a limited number each cycle?</p>
-  <p><span class="todo">Sentence 2 (data):</span> Describe the release, tables and window in one sentence.</p>
-  <p><span class="todo">Sentence 3 (method):</span> Describe the baseline rule and the model in one sentence.</p>
-  <p><span class="todo">Sentence 4 (result):</span> State the model-versus-baseline result on the same split, with the number.</p>
-  <p><span class="todo">Sentence 5 (framing):</span> State what the result means and its main limit, in decision-support language.</p>
+  <p>This study investigates whether historical search-performance signals can help prioritize content records for review.</p>
+  <p>It uses March 2026 data from the FlyRank internship warehouse, combining the daily performance fact table with the content dimension.</p>
+  <p>A trend-based baseline that ranks records by declining impression trends is compared with a Random Forest classifier using five historical and content metadata features.</p>
+  <p>On a grouped client test split, the baseline achieved Precision@50 of 0.88 and ROC AUC of 0.614, compared with 0.76 and 0.606 for the Random Forest.</p>
+  <p>The results suggest that impression trends may support exploratory content-review prioritization, but the proxy target and imbalanced client distribution limit generalization and do not establish refresh requirements or causal effects.</p>
 </div>
 
-<h2 id="intro">Introduction</h2>
-<p><span class="todo">Describe the decision this work supports: who reviews pages, how many they can review, and what a wasted review costs.</span></p>
+<h2 id="intro">1. Introduction</h2>
+<p>Content teams have limited time to review and update existing pages. A practical prioritization approach can help reviewers identify records that may deserve closer investigation before spending time on a full content audit.</p>
+<p>This study explores whether historical search-performance signals can rank content records associated with a later decline in clicks. The intended use is decision support for human reviewers, not automatic refresh decisions and not an explanation of how Google ranks pages.</p>
 
-<h2 id="data">Data</h2>
-<p><span class="todo">State which release and tables you used, the date windows (development month and sealed test month), what you excluded and why, and how availability was filtered. Keep it public-safe: no client names, domains, URLs or private queries.</span></p>
+<h2 id="data">2. Data</h2>
+<p>The study uses the March 2026 release of the FlyRank internship warehouse. The analysis combines the <code>fact_content_daily_performance</code> table with the <code>dim_content</code> dimension. The <code>dim_clients</code> schema was inspected for context but was not joined into the final feature query.</p>
+<p>The observation window is March 1–20, 2026. The target window is March 21–31, 2026. Records with fewer than five clicks during the observation window, missing content update dates, or content update dates after March 20, 2026 were excluded. The query also requires records to be present in both the early and later performance windows and to match a content-dimension record.</p>
+<p>Search-volume values were retained as a content metadata feature. In the selected records, 52.8% had zero search volume, and the distribution was highly skewed. This feature should therefore be interpreted cautiously.</p>
+<p>The analysis uses anonymized identifiers internally. No client names, domains, page URLs, or private search queries are included in this public report.</p>
 
-<h2 id="method">Methodology</h2>
-<p><span class="todo">Cover your assumptions, your features and when each is knowable, the label or proxy definition, the baseline rule (score, reason code, action), the validation design (grouped or time-aware split), and the leakage checks you ran.</span></p>
+<h2 id="method">3. Methodology</h2>
+<p>The target is a proxy indicator of click decline. A record receives a positive label when its average daily clicks during March 21–31 are below 80% of its average daily clicks during March 1–20. This represents a decline of more than 20% relative to the early-period daily average; it is not a verified content-refresh requirement.</p>
+<p>The trend baseline ranks records by their early-period impression trend, prioritizing lower ratios. Its review score is the negative log-transformed impression trend. Records with a trend ratio below 1 receive the reason code <code>DECLINING_IMPRESSIONS</code>; other records receive <code>NO_IMPRESSION_DECLINE</code>.</p>
+<p>The Random Forest classifier uses five features: log-transformed early impressions, average early-period search position, days since the last content update, log-transformed search volume, and log-transformed early-period impression trend. CTR was excluded from the final model because it shares early-period clicks with the target construction and may introduce a target-construction dependency.</p>
+<p>The data is split by client using <code>GroupShuffleSplit</code>, with 30% of client groups held out for testing. This prevents the same client from appearing in both training and testing. The Random Forest uses 300 trees and a minimum leaf size of 20, with median imputation in the model pipeline.</p>
+<p>Both approaches are evaluated on the same held-out test records using Precision@50 and ROC AUC. Precision@50 measures the proportion of positive proxy labels among the 50 highest-ranked test records.</p>
 
-<h2 id="results">Results</h2>
-<p>The model and the baseline are compared on the same split.</p>
+<h2 id="results">4. Results</h2>
+<p>The trend-based baseline outperformed the Random Forest on both evaluation metrics on the grouped test set.</p>
 <div class="scroll">
 <table>
-  <thead><tr><th>Method</th><th>Precision@50</th><th>Notes</th></tr></thead>
+  <thead>
+    <tr><th>Method</th><th>Precision@50</th><th>ROC AUC</th><th>Notes</th></tr>
+  </thead>
   <tbody>
-    <tr><td>Baseline rule</td><td><span class="todo">0.__</span></td><td><span class="todo">one-line description</span></td></tr>
-    <tr><td>Model</td><td><span class="todo">0.__</span></td><td><span class="todo">one-line description</span></td></tr>
+    <tr>
+      <td>Trend Baseline</td>
+      <td>0.88</td>
+      <td>0.614</td>
+      <td>Ranks records by declining impression trends.</td>
+    </tr>
+    <tr>
+      <td>Random Forest</td>
+      <td>0.76</td>
+      <td>0.606</td>
+      <td>Uses five historical and content metadata features.</td>
+    </tr>
   </tbody>
 </table>
 </div>
+
 <figure>
-  <!-- Save a chart from your notebook to assets/ and point the src at it. -->
-  <img src="assets/results.png" alt="Replace with a description of your chart" width="1200" height="700">
-  <figcaption><span class="todo">Caption: say what the chart shows and which split it comes from.</span></figcaption>
+  <img src="assets/results.png" alt="Bar chart comparing Precision at 50 and ROC AUC for the trend baseline and Random Forest on the grouped client test set">
+  <figcaption>Figure 1. Precision@50 and ROC AUC for both approaches on the same grouped client test set. The trend baseline achieved higher scores on both metrics.</figcaption>
 </figure>
 
-<h2 id="limits">Limitations and honest framing</h2>
-<p>These results are observed on an anonymized sample and are directional. The ranking is decision-support for a human reviewer. It does not show that any signal causes a ranking change, and it does not describe how Google ranks pages. <span class="todo">Add your own specific limits, such as proxy label, one development month, or missing columns.</span></p>
+<p>These results indicate that the simple impression-trend signal provided stronger ranking performance than the tested classifier in this experiment. The ROC AUC values remain modest, so the results should be treated as exploratory rather than evidence of a production-ready ranking system.</p>
 
-<h2 id="recs">Ranked recommendations</h2>
+<h2 id="limits">5. Limitations and Honest Framing</h2>
+<ul>
+  <li>The target is a proxy for click decline, not a verified refresh requirement or a measure of content quality.</li>
+  <li>The grouped test set contained seven clients, but 96.6% of its records came from one client. This imbalance limits confidence that the results generalize across clients.</li>
+  <li>The analysis covers one month of available data and does not establish whether the same patterns hold across other months or seasons.</li>
+  <li>Search-volume measurement timing is not fully established, so its usefulness as a historical feature requires further verification.</li>
+  <li>Average search position was calculated as an unweighted average of daily averages, rather than an impression-weighted average.</li>
+  <li>The trend baseline and Random Forest achieved modest ROC AUC values. Additional validation and model comparisons are needed before operational use.</li>
+  <li>Historical associations do not establish causality. The study does not show that declining impressions are caused by outdated content or that refreshing a page will improve performance.</li>
+</ul>
+
+<h2 id="recs">6. Ranked Recommendations</h2>
+<p>The trend-based baseline was selected as the preferred ranking approach because it achieved higher Precision@50 and ROC AUC than the Random Forest in this test. Its ranked output should be used as a review queue, with a human checking each record before deciding on an action.</p>
 <ol class="recs">
-  <li><span class="todo">Action 1, reason code, and what would make it wrong.</span></li>
-  <li><span class="todo">Action 2, reason code, and what would make it wrong.</span></li>
-  <li><span class="todo">Action 3, reason code, and what would make it wrong.</span></li>
+  <li><strong>Review records with declining impressions first.</strong> The <code>DECLINING_IMPRESSIONS</code> reason code identifies records whose early-period impression trend is below 1. Check whether the decline is persistent and whether the page still matches the intended search intent. A short observation window or incomplete data could make the signal misleading.</li>
+  <li><strong>Validate the context before recommending a refresh.</strong> Review available page information, content accuracy, search intent, and performance history before changing content. A decline alone does not prove that the page is outdated.</li>
+  <li><strong>Monitor records without an impression decline rather than prioritizing them automatically.</strong> The <code>NO_IMPRESSION_DECLINE</code> reason code means the early impression trend is not below 1; it does not guarantee that the page is performing well or that no other issue exists.</li>
 </ol>
+<p>These actions are proposed as a human-review workflow. They are not evidence that any particular content change will improve search performance.</p>
 
-<h2 id="repro">Reproducibility</h2>
-<p>Notebooks and code: <a href="https://github.com/janaadarwish/flyrank-ml-internship"><span class="todo">github.com/janaadarwish/your-repo</span></a>. Start with <code>work/notebooks/capstone.ipynb</code>. <span class="todo">List the notebooks in the order to read them.</span></p>
+<h2 id="repro">7. Reproducibility</h2>
+<p>The source code, data preparation, grouped validation, and model evaluation are available in the project repository.</p>
+<p>Repository: <a href="https://github.com/janaadarwish/flyrank-ml-internship">FlyRank ML Internship GitHub repository</a>.</p>
+<p>Capstone notebook: <a href="https://github.com/janaadarwish/flyrank-ml-internship/blob/main/work/notebooks/capstone_refresh_opportunity_scoring.ipynb">capstone_refresh_opportunity_scoring.ipynb</a>.</p>
+<p>Dataset: FlyRank internship warehouse, March 2026 release.</p>
 
-<h2 id="credit">Acknowledgments and data credit</h2>
-<p>Built on the FlyRank ML Internship dataset, <a href="https://flyrank.ai">flyrank.ai</a>. <span class="todo">Thank your mentors if you like.</span></p>
+<h2 id="credit">8. Acknowledgments and Data Credit</h2>
+<p>This project was developed as part of the FlyRank ML Internship using the FlyRank internship warehouse dataset.</p>
+<p>Data source: <a href="https://flyrank.ai">FlyRank</a>.</p>
 
-<footer>Remove every highlighted placeholder before you publish.</footer>
+<footer>
+  Exploratory research for content-review decision support. Results should be validated before operational use.
+</footer>
 </main>
 </body>
 </html>
+```
