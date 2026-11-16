@@ -7,37 +7,107 @@
 <title>Ranking Pages for Content Review: A Refresh Opportunity Scoring Study</title>
 <meta name="description" content="An exploratory study comparing impression-trend ranking with a Random Forest model for content-review prioritization using March 2026 FlyRank internship data.">
 <style>
-:root{
-  --bg:#f7f8fa; --ink:#1c2330; --muted:#566074; --line:#d9dee7; --accent:#0f5c63;
-  --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
-  --sans:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+:root {
+  --bg: #f7f8fa;
+  --ink: #1c2330;
+  --muted: #566074;
+  --line: #d9dee7;
+  --accent: #0f5c63;
+  --serif: Georgia, "Iowan Old Style", "Times New Roman", serif;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
 }
-@media (prefers-color-scheme:dark){
-  :root{--bg:#12161d; --ink:#e7eaf0; --muted:#9aa4b5; --line:#2b3340; --accent:#6fc3c9;}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #12161d;
+    --ink: #e7eaf0;
+    --muted: #9aa4b5;
+    --line: #2b3340;
+    --accent: #6fc3c9;
+  }
 }
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--ink);font:1.08rem/1.7 var(--serif)}
-main{max-width:46rem;margin:0 auto;padding:3rem 1.25rem 5rem}
-h1{font:700 2.1rem/1.2 var(--sans);letter-spacing:-.02em;margin:0 0 .6rem}
-h2{font:650 1.35rem/1.3 var(--sans);margin:3rem 0 .6rem;padding-top:1.2rem;border-top:1px solid var(--line)}
-p{margin:.8rem 0}
-.byline{font:.95rem var(--sans);color:var(--muted);margin:0 0 2rem}
-.abstract{border-left:4px solid var(--accent);padding:.2rem 0 .2rem 1.1rem;margin:1.5rem 0}
-.abstract p{margin:.35rem 0}
-nav{font:.92rem var(--sans);margin:1.5rem 0 0}
-nav a{color:var(--accent);margin-right:.9rem;white-space:nowrap}
-a{color:var(--accent)}
-a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-table{width:100%;border-collapse:collapse;font:.95rem var(--sans);margin:1rem 0}
-.scroll{overflow-x:auto}
-th,td{text-align:left;padding:.55rem .7rem;border-bottom:1px solid var(--line)}
-th{font-weight:650}
-figure{margin:1.5rem 0}
-figure img{max-width:100%;height:auto;border:1px solid var(--line)}
-figcaption{font:.88rem var(--sans);color:var(--muted);margin-top:.4rem}
-ol.recs li{margin:.5rem 0}
-footer{font:.9rem var(--sans);color:var(--muted);margin-top:3rem;border-top:1px solid var(--line);padding-top:1rem}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 1.08rem/1.7 var(--serif);
+}
+main {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 3rem 1.25rem 5rem;
+}
+h1 {
+  font: 700 2.1rem/1.2 var(--sans);
+  letter-spacing: -.02em;
+  margin: 0 0 .6rem;
+}
+h2 {
+  font: 650 1.35rem/1.3 var(--sans);
+  margin: 3rem 0 .6rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--line);
+}
+p { margin: .8rem 0; }
+.byline {
+  font: .95rem var(--sans);
+  color: var(--muted);
+  margin: 0 0 2rem;
+}
+.abstract {
+  border-left: 4px solid var(--accent);
+  padding: .2rem 0 .2rem 1.1rem;
+  margin: 1.5rem 0;
+}
+.abstract p { margin: .35rem 0; }
+nav {
+  font: .92rem var(--sans);
+  margin: 1.5rem 0 0;
+}
+nav a {
+  color: var(--accent);
+  margin-right: .9rem;
+  white-space: nowrap;
+}
+a { color: var(--accent); }
+a:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font: .95rem var(--sans);
+  margin: 1rem 0;
+}
+.scroll { overflow-x: auto; }
+th, td {
+  text-align: left;
+  padding: .55rem .7rem;
+  border-bottom: 1px solid var(--line);
+}
+th { font-weight: 650; }
+figure { margin: 1.5rem 0; }
+figure img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+}
+figcaption {
+  font: .88rem var(--sans);
+  color: var(--muted);
+  margin-top: .4rem;
+}
+ol.recs li { margin: .5rem 0; }
+footer {
+  font: .9rem var(--sans);
+  color: var(--muted);
+  margin-top: 3rem;
+  border-top: 1px solid var(--line);
+  padding-top: 1rem;
+}
 </style>
 </head>
 <body>
@@ -88,7 +158,12 @@ footer{font:.9rem var(--sans);color:var(--muted);margin-top:3rem;border-top:1px 
 <div class="scroll">
 <table>
   <thead>
-    <tr><th>Method</th><th>Precision@50</th><th>ROC AUC</th><th>Notes</th></tr>
+    <tr>
+      <th>Method</th>
+      <th>Precision@50</th>
+      <th>ROC AUC</th>
+      <th>Notes</th>
+    </tr>
   </thead>
   <tbody>
     <tr>
@@ -108,7 +183,8 @@ footer{font:.9rem var(--sans);color:var(--muted);margin-top:3rem;border-top:1px 
 </div>
 
 <figure>
-  <img src="assets/results.png" alt="Bar chart comparing Precision at 50 and ROC AUC for the trend baseline and Random Forest on the grouped client test set">
+  <img src="assets/results.png"
+       alt="Bar chart comparing Precision at 50 and ROC AUC for the trend baseline and Random Forest on the grouped client test set">
   <figcaption>Figure 1. Precision@50 and ROC AUC for both approaches on the same grouped client test set. The trend baseline achieved higher scores on both metrics.</figcaption>
 </figure>
 
@@ -147,6 +223,7 @@ footer{font:.9rem var(--sans);color:var(--muted);margin-top:3rem;border-top:1px 
 <footer>
   Exploratory research for content-review decision support. Results should be validated before operational use.
 </footer>
+
 </main>
 </body>
 </html>
